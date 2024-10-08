@@ -109,7 +109,7 @@ class StringUtils:
         string = ""
         length = len(lst)
         
-        if length == 0: 
+        if length == 0:  
             return string 
         
         for i in range(0, length-1):
