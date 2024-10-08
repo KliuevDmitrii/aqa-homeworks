@@ -104,7 +104,7 @@ class StringUtils:
             `joiner` - разделитель элементов в строке. По умолчанию запятая (", ") \n
         Пример 1: `list_to_string([1,2,3,4]) -> "1, 2, 3, 4"`
         Пример 2: `list_to_string(["Sky", "Pro"]) -> "Sky, Pro"`
-        Пример 3: `list_to_string(["Sky", "Pro"], "-") -> "Sky-Pro"`
+        Пример 3: `list_to_string(["Sky", "Pro"], "-") -> "Sky-Pro"` 
         """
         string = ""
         length = len(lst)

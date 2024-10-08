@@ -13,7 +13,7 @@ string_utils = StringUtils()
     (" test", " test"),
     ("", "")])
 
-def test_capitilize(str, result):
+def test_capitilize(str, result): 
     string_utils = StringUtils()
     res = string_utils.capitilize(str)
     assert res == result
