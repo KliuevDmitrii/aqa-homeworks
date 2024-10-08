@@ -4,7 +4,7 @@ from string_utils import StringUtils
 string_utils = StringUtils()
 
 @pytest.mark.parametrize("str, result",
-[("tes1", "Test1"),
+[("tes", "Test"),
     ("t","T"),
     ("capitilize test", "Capitilize test"),
     ("Test", "Test"),
