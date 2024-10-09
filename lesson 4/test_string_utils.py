@@ -4,7 +4,7 @@ from string_utils import StringUtils
 string_utils = StringUtils()
 
 @pytest.mark.parametrize("str, result",
-[("tes", "Test"),
+[("test", "Test"),
     ("t","T"),
     ("capitilize test", "Capitilize test"),
     ("Test", "Test"),
@@ -12,7 +12,6 @@ string_utils = StringUtils()
     ("123test", "123test"),
     (" test", " test"),
     ("", "")])
-
 def test_capitilize(str, result): 
     string_utils = StringUtils()
     res = string_utils.capitilize(str)
@@ -24,7 +23,6 @@ def test_capitilize(str, result):
 ("test trim", "test trim"),
 (" ", ""),
 ("", "")])
-
 def test_trim(str, result):
     string_utils = StringUtils()
     res = string_utils.trim(str)
@@ -37,7 +35,6 @@ def test_trim(str, result):
 ("a-1", "-", ["a", "1"]),
 ("a.a, a.b, a.c", ", ", ["a.a", "a.b", "a.c"]),
 ("", "", [])])
-
 def test_to_list(str, delimeter, result):
     string_utils = StringUtils()
     res = string_utils.to_list(str, delimeter)
@@ -50,7 +47,6 @@ def test_to_list(str, delimeter, result):
 ("test contains", "b", False),
 ("test contains", "T", False),
 ("test2", "2", True)])
-
 def test_contains(str, symbol, result):
     string_utils = StringUtils()
     res = string_utils.contains(str, symbol)
@@ -62,7 +58,6 @@ def test_contains(str, symbol, result):
 ("delete symbol", " ", "deletesymbol"),
 ("delete symbol", "D", "delete symbol"),
 ("delete symbol", "w", "delete symbol")])
-
 def test_delete_symbol(str, symbol, result):
     string_utils = StringUtils()
     res = string_utils.delete_symbol(str, symbol)
@@ -74,7 +69,6 @@ def test_delete_symbol(str, symbol, result):
 ("starts_with", "S", False),
 (" ", " ", True),
 (" starts_with", "", True)])
-
 def test_starts_with(str, symbol, result):
     string_utils = StringUtils()
     res = string_utils.starts_with(str, symbol)
@@ -86,7 +80,6 @@ def test_starts_with(str, symbol, result):
 ("ens_with", "H", False),
 (" ", " ", True),
 ("end with ", "", True)])
-
 def test_end_with(str, symbol, result):
     string_utils = StringUtils()
     res = string_utils.end_with(str, symbol)
@@ -96,7 +89,6 @@ def test_end_with(str, symbol, result):
 [("", True),
 ("d", False),
 ("   ", True)])
-
 def test_is_empty(str, result):
     string_utils = StringUtils()
     res = string_utils.is_empty(str)
@@ -107,7 +99,6 @@ def test_is_empty(str, result):
 [([1,2,3,4], ", ", "1, 2, 3, 4"),
 (["list", "string"], "_", "list_string"),
 ([], "", "")])
-
 def test_list_to_string(lst, joiner, result):
     string_utils = StringUtils()
     res = string_utils.list_to_string(lst, joiner)
