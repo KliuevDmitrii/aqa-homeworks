@@ -3,10 +3,9 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 
-# 1. Перейдите на страницу http://uitestingplayground.com/ajax.
-
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
+# 1. Перейдите на страницу http://uitestingplayground.com/ajax.
 driver.get("http://uitestingplayground.com/ajax")
 
 # 2. Нажмите на синюю кнопку.
