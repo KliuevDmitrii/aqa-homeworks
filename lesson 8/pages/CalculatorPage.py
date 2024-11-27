@@ -30,4 +30,4 @@ class CalculatorPage:
             EC.text_to_be_present_in_element((By.CSS_SELECTOR, ".screen"), expected_result)
         )
         result_element = self._driver.find_element(By.CSS_SELECTOR, ".screen")
-        return result_element.text.strip()
+        return result_element.text.strip() 
