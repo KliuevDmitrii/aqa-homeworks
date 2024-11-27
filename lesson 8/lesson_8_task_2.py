@@ -21,7 +21,7 @@ def test_displayed_result(browser, num1, operator, num2, expected_result):
     calculator_page.clear_input()
     calculator_page.input_delay(45)
     calculator_page.input_num(num1)
-    calculator_page.input_operator(operator)
+    calculator_page.input_operator(operator) 
     calculator_page.input_num(num2)
     calculator_page.click_equals()
 
