@@ -31,4 +31,4 @@ def test_empty_fild(browser, first_name, last_name, address, zip_code, city, cou
     form_page.click_button()
     empty_fields = form_page.get_empty_fild()
     
-    assert "zip-code" in empty_fields, "Поле 'Zip Code' не отмечено как пустое."
+    assert "zip-code" in empty_fields, "Поле 'Zip Code' отмечено как пустое."
