@@ -17,7 +17,8 @@ class EmployeeApi:
         return resp.json()
     
     def get_employees_in_company(self, id):
-        resp = requests.get(self.url + '/employee/list' + str(id))
+        resp = requests.get(self.url + '/employee/list/' + str(id))
+        print(resp)
         return resp.json()
     
     def create_employee(self, first_name, last_name="", middle_name="", company_id="", email="", phone="", birth_date=""):
@@ -34,18 +35,18 @@ class EmployeeApi:
         resp = requests.post(self.url + '/employee/create', json=employee)
         return resp.json()
     
-    def edit_employee(self, new_id, new_last_name, new_email, new_phone):
+    def edit_employee(self, new_id, new_email, new_phone):
         client_token = self.get_token()
         url_with_token = f"{self.url}/employee/change/{new_id}?client_token={client_token}"
 
         employee = {
-            "last_name": new_last_name,
             "email": new_email,
             "phone": new_phone
         }
 
         resp = requests.patch(url_with_token, json=employee)
         return resp.json()
+
     
     def set_employee_active_state(self, id, is_active):
         client_token = self.get_token()
@@ -53,5 +54,4 @@ class EmployeeApi:
         url_with_token = f"{self.url}/employee/change/{id}?client_token={client_token}"
         resp = requests.patch(url_with_token, json={"is_active": is_active})
         return resp.json()
-    
     
