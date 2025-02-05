@@ -1,23 +1,41 @@
+import allure
 from faker import Faker
 from EmployeeAPI import EmployeeApi
 from EmployeeTable import EmployeeTable
+
 
 api = EmployeeApi("http://5.101.50.27:8000")
 db = EmployeeTable("postgresql+psycopg2://qa:skyqa@5.101.50.27:5432/x_clients")
 fake = Faker()
 
+@allure.title("Получение информации о сотруднике в компании")
+@allure.description("Тест проверяет, что количество сотрудников, полученных через API, совпадает с количеством сотрудников, полученных из базы данных для компании с id = 2.")
+@allure.feature("READ")
+@allure.severity(allure.severity_level.CRITICAL)
 def test_get_employees_in_company():
     api_result = api.get_employees_in_company(2)
     db_result = db.get_employees_in_company(2)
 
-    assert len(api_result) == len(db_result) 
+    with allure.step("Сравнить размеры 2х списков"):
+        assert len(api_result) == len(db_result) 
 
+@allure.title("Получение информации о сотруднике")
+@allure.description("Тест проверяет, что информация о сотруднике, полученная через API, совпадает с информацией о сотруднике, полученной из базы данных")
+@allure.feature("READ")
+@allure.severity(allure.severity_level.NORMAL)
 def test_get_employee():
     api_result = api.get_employee(2)
-    db_result = db.get_employees(2)
+    db_result = db.get_employee(2)
 
-    assert len(api_result) == len(db_result)
+    api_result_list = [api_result]
 
+    with allure.step("Сравнить размеры 2х списков"):
+        assert len(api_result_list) == len(db_result)
+
+@allure.title("Добавление нового сотрудника")
+@allure.description("Тест проверяет создание нового сотрудника и соответствие данных из API и базы данных.")
+@allure.feature("CREATE")
+@allure.severity(allure.severity_level.NORMAL)
 def test_add_new_employee():
     body = api.get_employees_in_company(2)
     first_name = fake.first_name()
@@ -31,19 +49,24 @@ def test_add_new_employee():
     result = api.create_employee(first_name, last_name, middle_name, company_id, email, phone, birth_date)
     new_id = result["id"]
 
+    with allure.step("Проверить поля нового сотрудника. Корректно заполнены"):
+        for employee in body:
+            if employee["id"] == new_id:
+                assert employee["first_name"] == first_name
+                assert employee["last_name"] == last_name
+                assert employee["company_id"] == company_id
+                assert employee["email"] == email
+                assert employee["phone"] == phone
+                assert employee["birthdate"] == birth_date
+                assert employee["id"] == new_id
+                assert employee["is_active"] is True
+
     db.delete(new_id)
 
-    for employee in body:
-        if employee["id"] == new_id:
-            assert employee["first_name"] == first_name
-            assert employee["last_name"] == last_name
-            assert employee["company_id"] == company_id
-            assert employee["email"] == email
-            assert employee["phone"] == phone
-            assert employee["birthdate"] == birth_date
-            assert employee["id"] == new_id
-            assert employee["is_active"] is True
-
+@allure.title("Редактирование информации о сотруднике")
+@allure.description("Тест проверяет возможность редактирования информации о сотруднике (email и телефон).")
+@allure.feature("UPDATE")
+@allure.severity(allure.severity_level.NORMAL)
 def test_edit_employee():
     first_name = fake.first_name()[:15]
     last_name = fake.last_name()[:15]
@@ -66,9 +89,14 @@ def test_edit_employee():
 
     db.delete(max_id)
     
-    assert edited["email"] == new_email
-    assert edited["phone"] == new_phone
+    with allure.step("Проверить данные для полей изменены"):
+        assert edited["email"] == new_email
+        assert edited["phone"] == new_phone
 
+@allure.title("Деактивация сотрудника")
+@allure.description("Тест проверяет возможность деактивации сотрудника через API, изменяя его статус is_active на False.")
+@allure.feature("UPDATE")
+@allure.severity(allure.severity_level.CRITICAL)
 def test_deactivate_employee():
     first_name = "Ivan1"
     last_name = "Ivanov"
@@ -88,8 +116,13 @@ def test_deactivate_employee():
 
     db.delete(max_id)
 
-    assert body["is_active"] is False
+    with allure.step("Проверить что сотрудник имеет статус деактивирован"):
+        assert body["is_active"] is False
 
+@allure.title("Деактивация и повторная активация сотрудника")
+@allure.description("Тест проверяет возможность деактивации сотрудника через API, а затем повторной активации его статуса.")
+@allure.feature("UPDATE")
+@allure.severity(allure.severity_level.CRITICAL)
 def test_deactivate_and_activate_back_employee():
     first_name = "Ivan1"
     last_name = "Ivanov"
@@ -108,4 +141,6 @@ def test_deactivate_and_activate_back_employee():
     body = api.set_employee_active_state(max_id, True)
 
     db.delete(max_id)
-    assert body["is_active"] is True
+
+    with allure.step("Проверить что сотрудник имеет статус активирован"):
+        assert body["is_active"] is True
