@@ -1,4 +1,5 @@
 from time import sleep
+import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
@@ -10,6 +11,10 @@ from pages.CartPage import CartPage
 from pages.UserDataPage import UserDataPage
 from pages.OverviewPage import OverviewPage
 
+@allure.title("Проверка итоговой суммы заказа")
+@allure.description("Тест проверяет правильность расчета итоговой суммы на странице Overview.")
+@allure.feature("Checkout")
+@allure.severity(allure.severity_level.CRITICAL)
 def test_total_sum():
     browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
@@ -35,6 +40,8 @@ def test_total_sum():
     overview_page = OverviewPage(browser)
     overview_page.get()
     price = overview_page.check_price_total()
-    assert price == "$58.29"
+
+    with allure.step("Проверка итоговой суммы заказа"):
+        assert price == "$58.29"
     
     browser.quit()

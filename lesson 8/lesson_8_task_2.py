@@ -1,4 +1,5 @@
 import pytest
+import allure
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -13,6 +14,11 @@ def browser():
     yield driver
     driver.quit()
 
+@allure.title("Проверка отображаемого результата вычисления по истечению заданного времени")
+@allure.description("Тест проверяет, отображается результат вычисления в калькуляторе по истечени заданного времени")
+@allure.feature("Calculator Functionality")
+@allure.severity(allure.severity_level.CRITICAL)
+
 @pytest.mark.parametrize("num1, operator, num2, expected_result", [
     ("7", "+", "8", "15")
 ])
@@ -26,4 +32,6 @@ def test_displayed_result(browser, num1, operator, num2, expected_result):
     calculator_page.click_equals()
 
     result = calculator_page.get_result(expected_result)
-    assert result == expected_result
+
+    with allure.step("Проверка соответствия отображаемого результата ожидаемому"):
+        assert result == expected_result
