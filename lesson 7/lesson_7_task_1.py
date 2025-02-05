@@ -1,3 +1,4 @@
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -7,13 +8,12 @@ from selenium.webdriver.common.by import By
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
 @pytest.fixture
-def browser():
+def browser(browser):
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     driver.implicitly_wait(10)
     yield driver
     driver.quit()
 
-def test_alert(browser):
 # 1. Откройте страницу: https://bonigarcia.dev/selenium-webdriver-java/data-types.html.
     driver.get("https://bonigarcia.dev/selenium-webdriver-java/data-types.html")
 
